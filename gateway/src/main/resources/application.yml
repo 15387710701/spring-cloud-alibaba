@@ -1,0 +1,35 @@
+server:
+  port: 9013
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: lhw888.top:8848
+        namespace: 9369b24b-60ef-4d86-abac-8b7f148b9bbb
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: product_route
+          uri: lb://product
+          predicates:
+            - Path=/product-serv/**
+          filters:
+            - StripPrefix=1
+        - id: order_route
+          uri: lb://order-service
+          predicates:
+            - Path=/order-serv/**
+          filters:
+            - StripPrefix=1
+        - id: member_route
+          uri: lb://member
+          predicates:
+            - Path=/member-serv/**
+          filters:
+            - StripPrefix=1

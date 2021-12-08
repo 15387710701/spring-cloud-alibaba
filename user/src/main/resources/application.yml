@@ -1,0 +1,23 @@
+
+spring:
+  application:
+    name: member
+  datasource:
+    url: jdbc:mysql://lhw888.top:3307/demo?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    password: admin
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles:
+    active: redis
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: lhw888.top:8848
+        namespace: 9369b24b-60ef-4d86-abac-8b7f148b9bbb
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 9011
+
