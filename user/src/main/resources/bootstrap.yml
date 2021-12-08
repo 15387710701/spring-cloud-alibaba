@@ -1,0 +1,35 @@
+
+spring:
+  application:
+    name: member
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: 39.108.102.215:8848
+        namespace: 9369b24b-60ef-4d86-abac-8b7f148b9bbb
+      config:
+        server-addr: 39.108.102.215:8848
+        namespace: 9369b24b-60ef-4d86-abac-8b7f148b9bbb
+        file-extension: yaml
+        ext-config:
+          - data-id: lian.yaml
+            refresh: true
+            group: lianjiechi
+          - data-id: port.yaml
+            refresh: true
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: seckill
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 39.108.102.215:8848
+        namespace: 2a36af80-2c46-4d09-ba9b-24e0c5fe5843
+      config:
+        server-addr: 39.108.102.215:8848
+        namespace: 2a36af80-2c46-4d09-ba9b-24e0c5fe5843
+

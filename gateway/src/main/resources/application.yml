@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: lhw888.top:8848
+        server-addr: 39.108.102.215:8848
         namespace: 9369b24b-60ef-4d86-abac-8b7f148b9bbb
 
     gateway:

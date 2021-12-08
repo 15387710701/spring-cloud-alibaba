@@ -39,7 +39,7 @@ public class BookController {
     @Autowired
     StringRedisTemplate redisTemplate;
     @GetMapping("/list")
-    public List<MpBook> findAll(String token){
+    public List<MpBook> findAll(){
         List<MpBook> list = bookService.list();
         for (MpBook mpBook : list) {
             String s = JSON.toJSONString(mpBook);
