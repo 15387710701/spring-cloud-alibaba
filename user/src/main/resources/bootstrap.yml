@@ -20,7 +20,10 @@ spring:
             refresh: true
   profiles:
     active: dev
-
+rocketmq:
+  name-server: 42.194.149.227:9876
+  producer:
+    group: my-group
 ---
 spring:
   profiles: seckill

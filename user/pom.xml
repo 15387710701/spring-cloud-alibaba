@@ -20,6 +20,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!--        rocketmq-->
 
         <dependency>
             <groupId>com.ms</groupId>

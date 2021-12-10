@@ -7,6 +7,8 @@ import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ms.commons.constant.RedisKey;
+import com.ms.commons.constant.RocketMQTagConstant;
+import com.ms.commons.constant.RocketMQTopicConstant;
 import com.ms.commons.domain.UmsMember;
 import com.ms.commons.dto.UserLoginDTO;
 import com.ms.commons.utils.GlobalParamUtil;
@@ -14,8 +16,14 @@ import com.ms.commons.utils.Result;
 import com.ms.user.interceptor.LoginInterceptor;
 import com.ms.user.service.IUmsMember;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.remoting.exception.RemotingException;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +38,8 @@ import java.util.List;
 public class UmsMemberController {
     @Autowired
     StringRedisTemplate redisTemplate;
+    @Autowired
+    RocketMQTemplate mqTemplate;
     @Autowired
     IUmsMember umsMember;
     @GetMapping("/userLogin")
@@ -67,12 +77,27 @@ public class UmsMemberController {
         return Result.ok(umsMember.list());
     }
 
-    @PostMapping
-    public Result addMember(UmsMember member){
+    @PostMapping("/addMember")
+    public Result addMember(UmsMember member) {
         MD5 md5 = MD5.create();
         byte[] digest = md5.digest(member.getPassword());
         member.setPassword(new String(digest));
-        umsMember.save(member);
+       // umsMember.save(member);
+        //发送消息
+        org.apache.rocketmq.common.message.Message message1=new org.apache.rocketmq.common.message.Message();
+        message1.setTopic(RocketMQTopicConstant.TOPIC_ADD_USER);
+        message1.setTags(RocketMQTagConstant.TAG_ADD_USER);
+        message1.setBody("新增用户".getBytes());
+
+        try {
+            mqTemplate.getProducer().send(message1);
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("发送mq消息失败");
+            throw new RuntimeException(e.getMessage());
+        }
         return Result.ok();
     }
 
