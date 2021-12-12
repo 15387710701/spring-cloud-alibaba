@@ -39,7 +39,13 @@ public class Result<T> {
         result.setMsg(msg);
         return result;
     }
-
+    public static <T> Result<T> error(String msg) {
+        Result<T> result = new Result<>();
+        result.setCode(FAIL_CODE);
+        result.setData(null);
+        result.setMsg(msg);
+        return result;
+    }
     public static <T> Result<T> ok(T data) {
         Result<T> result = new Result<>();
         result.setCode(SUCCESS_CODE);

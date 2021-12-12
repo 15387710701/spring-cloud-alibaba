@@ -57,11 +57,8 @@ public class BookController {
     }
 
     @GetMapping("/getMpBook")
-    public MpBook findAll(Long id){
-        if (id !=null){
-            return bookService.getById(id);
-        }
-            return new MpBook();
+    public String findAll(Long id){
+            return bookService.getById(id).getAuthor();
     }
     @GetMapping("/delete")
     public Result delete(Long id){
