@@ -1,4 +1,4 @@
-package com.ms.user.controller;
+package com.ms.user.controller.login;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,21 +9,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ms.commons.constant.RedisKey;
 import com.ms.commons.constant.RocketMQTagConstant;
 import com.ms.commons.constant.RocketMQTopicConstant;
-import com.ms.commons.domain.UmsMember;
 import com.ms.commons.dto.UserLoginDTO;
-import com.ms.commons.utils.GlobalParamUtil;
 import com.ms.commons.utils.Result;
-import com.ms.user.interceptor.LoginInterceptor;
+import com.ms.user.domain.UmsMember;
 import com.ms.user.service.IUmsMember;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,9 +54,9 @@ public class UmsMemberController {
         String md5Str = SecureUtil.md5(dto.getPassword());
         if (member.getPassword().equals(md5Str)){
             String token = RandomUtil.randomString(20);
-            if (!redisTemplate.hasKey(RedisKey.USER_TOKEN+member.getId())) {
+            if (!redisTemplate.hasKey(RedisKey.USER_TOKEN+"admin")) {
                 String s = JSON.toJSONString(member);
-                redisTemplate.opsForValue().set(RedisKey.USER_TOKEN+token,s);
+                redisTemplate.opsForValue().set(RedisKey.USER_TOKEN+"admin",s);
             }
             member.setEmail(token);
             return Result.ok(member);

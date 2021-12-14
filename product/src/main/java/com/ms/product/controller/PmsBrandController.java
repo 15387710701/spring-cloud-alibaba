@@ -38,11 +38,11 @@ public class PmsBrandController {
     @GetMapping("/jiaoyan")
     public Result jiaoyan(JiaoYanDTO dto)  {
         if (dto.getPassword().equals("11111")){
-            /*throw new SellException(3000,"密码设置太简单了");*/
+            throw new SellException(3000,"密码设置太简单了");
             throw new SellException(3000,"密码设置太简单了");
         }
         if (dto.getPassword().equals("111111")){
-            /*throw new SellException(3000,"密码设置太简单了");*/
+            throw new SellException(3000,"密码设置太简单了");
         }
         return Result.ok();
 

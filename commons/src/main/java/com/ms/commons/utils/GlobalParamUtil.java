@@ -1,7 +1,7 @@
+/*
 package com.ms.commons.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.ms.commons.domain.UmsMember;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +44,8 @@ public class GlobalParamUtil {
     }
 
     private static void getByRequestBody(HttpServletRequest request, Map<String, Object> map) {
-    /*    try {
+    */
+/*    try {
             String bodyString = HttpHelper.getBodyString(request);
             if (JSONUtil.isJsonObj(bodyString)) {
                 JSONObject json = JSONUtil.parseObj(bodyString);
@@ -56,7 +57,8 @@ public class GlobalParamUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }*//*
+
     }
 
     public static void setUser(UmsMember userDTO) {
@@ -69,14 +71,16 @@ public class GlobalParamUtil {
         threadLocal.set(map);
     }
 
-    /**
+    */
+/**
      * 设置语言方式
      *
      * @param lang
      * @date 2021/4/28
      * @author Gyl
      * @Version 2.0
-     */
+     *//*
+
     public static void setLang(String lang) {
         Map<String, Object> map = threadLocal.get();
         if (map == null)
@@ -101,14 +105,16 @@ public class GlobalParamUtil {
     }
 
 
-    /**
+    */
+/**
      * 获取语言方式
      *
      * @return int
      * @date 2021/4/28
      * @author Gyl
      * @Version 2.0
-     */
+     *//*
+
     public static int getLang() {
         Map<String, Object> map = threadLocal.get();
         if (map != null) {
@@ -118,11 +124,13 @@ public class GlobalParamUtil {
         return default_page;
     }
 
-    /**
+    */
+/**
      * 获取语言
      *
      * @return zh_CN, en_US, zh_HK
-     */
+     *//*
+
     public static String getLangString() {
         Map<String, Object> map = threadLocal.get();
         if (map.containsKey(LANG + "-string")) {
@@ -130,38 +138,51 @@ public class GlobalParamUtil {
         }
         return "zh_CN";
     }
+*/
 /*
     public static UserDTO getUser() {
         return getUser(true);
     }
 
-    *//**
+    *//*
+*/
+/**
      * 获取管理后台登录用户
      *
      * @return
      *//*
+*/
+/*
     public static LoginUser getAdminUser() {
         return (LoginUser) getUser(true);
     }
 
-    *//**
+    *//*
+*/
+/**
      * 获取前端登录用户
      *
      * @return
      *//*
+*/
+/*
     public static AccUserDTO getAppUser() {
         return ((AccUserDTO) getUser(true));
     }
 
 
-    *//**
+    *//*
+*/
+/**
      * 是否需要抛异常
      *
      * @return
-     */
+     *//*
+
     public static UmsMember getUser() {
         Map<String, Object> map = threadLocal.get();
-     /*   if (map == null) {
+     */
+/*   if (map == null) {
             if (throwException)
                 throw new MsException(401, "未登录");
             return null;
@@ -169,7 +190,8 @@ public class GlobalParamUtil {
         Object o = map.get(key_user);
         if (o == null) {
             throw new MsException(401, "未登录");
-        }*/
+        }*//*
+
         return ((UmsMember)map.get(key_user));
     }
 
@@ -270,3 +292,4 @@ public class GlobalParamUtil {
     }
 
 }
+*/

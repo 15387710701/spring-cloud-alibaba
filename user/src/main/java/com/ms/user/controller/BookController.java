@@ -8,14 +8,14 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ms.commons.utils.Result;
+import com.ms.user.annotation.IsNotFreeze;
 import com.ms.user.domain.AccUser;
 import com.ms.user.domain.MpBook;
 import com.ms.user.mapper.AccUserMapper;
+import com.ms.user.mapper.UmsMemberMapper;
 import com.ms.user.service.IMpBook;
 import com.ms.user.utils.ExcelUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
@@ -27,7 +27,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/book")
@@ -37,7 +40,15 @@ public class BookController {
     @Autowired
     private AccUserMapper accUserMapper;
     @Autowired
+    UmsMemberMapper memberMapper;
+    @Autowired
     StringRedisTemplate redisTemplate;
+@IsNotFreeze
+    @GetMapping("/memberList")
+    public Result status(){
+       return Result.ok( memberMapper.selectList(null));
+    }
+
     @GetMapping("/list")
     public List<MpBook> findAll(){
         List<MpBook> list = bookService.list();
