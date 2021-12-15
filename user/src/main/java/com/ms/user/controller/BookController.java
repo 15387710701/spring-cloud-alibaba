@@ -16,6 +16,10 @@ import com.ms.user.mapper.AccUserMapper;
 import com.ms.user.mapper.UmsMemberMapper;
 import com.ms.user.service.IMpBook;
 import com.ms.user.utils.ExcelUtils;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
@@ -32,6 +36,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.ms.commons.constant.RocketMQTopicConstant.TOPIC_ADD_MPBOOK;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
@@ -43,6 +49,8 @@ public class BookController {
     UmsMemberMapper memberMapper;
     @Autowired
     StringRedisTemplate redisTemplate;
+    @Autowired
+    RocketMQTemplate rocketMQTemplate;
 @IsNotFreeze
     @GetMapping("/memberList")
     public Result status(){
@@ -64,7 +72,11 @@ public class BookController {
 
     @PostMapping("/updateOrSave")
     public Result findAll(@RequestBody MpBook mpBook){
-        return Result.ok(bookService.saveOrUpdate(mpBook));
+        bookService.saveOrUpdate(mpBook);
+        SendResult sendResult = rocketMQTemplate.syncSend(TOPIC_ADD_MPBOOK+":tagA:add", mpBook);
+        SendStatus sendStatus = sendResult.getSendStatus();
+
+        return Result.ok(sendStatus);
     }
 
     @GetMapping("/getMpBook")

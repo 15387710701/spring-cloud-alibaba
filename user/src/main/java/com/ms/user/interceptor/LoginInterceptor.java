@@ -23,7 +23,7 @@ public class LoginInterceptor  extends HandlerInterceptorAdapter {
     StringRedisTemplate redisTemplate;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getParameter("token");
+        String token = request.getHeader("token");
         if (StrUtil.isBlank(token)){
             return false;
         }

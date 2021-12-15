@@ -6,4 +6,5 @@ package com.ms.commons.constant;
  */
 public class RocketMQTopicConstant {
     public static final String TOPIC_ADD_USER="topic_add_user";
+    public static final String TOPIC_ADD_MPBOOK="topic_add_mpbook";
 }
