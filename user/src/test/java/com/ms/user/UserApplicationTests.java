@@ -1,12 +1,9 @@
 package com.ms.user;
 
-import com.ms.commons.domain.UmsMember;
+import com.ms.user.domain.UmsMember;
 import com.ms.user.service.IUmsMember;
-import org.apache.rocketmq.client.exception.MQBrokerException;
-import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.*;
 import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
