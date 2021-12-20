@@ -36,12 +36,12 @@ public class PmsBrandController {
     }
 
     @GetMapping("/jiaoyan")
-    public Result jiaoyan(JiaoYanDTO dto)  {
-        if (dto.getPassword().equals("11111")){
+    public Result jiaoyan(JiaoYanDTO dto) {
+        if (dto.getPassword().equals("11111")) {
             /*throw new SellException(3000,"密码设置太简单了");*/
-            throw new SellException(3000,"密码设置太简单了");
+            throw new SellException(3000, "密码设置太简单了");
         }
-        if (dto.getPassword().equals("111111")){
+        if (dto.getPassword().equals("111111")) {
             /*throw new SellException(3000,"密码设置太简单了");*/
         }
         return Result.ok();
@@ -50,8 +50,8 @@ public class PmsBrandController {
 
     @GetMapping("abc")
     public Result resultVO(String msg) {
-        if (msg.equals("111")){
-            throw new SellException(3000,"密码太简单");
+        if (msg.equals("111")) {
+            throw new SellException(3000, "密码太简单");
         }
         return Result.ok();
     }

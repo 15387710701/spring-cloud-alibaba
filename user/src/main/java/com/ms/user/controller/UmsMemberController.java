@@ -42,36 +42,37 @@ public class UmsMemberController {
     RocketMQTemplate mqTemplate;
     @Autowired
     IUmsMember umsMember;
+
     @GetMapping("/userLogin")
     public Result<UmsMember> userLogin(UserLoginDTO dto) throws Exception {
-        if (StrUtil.isBlank(dto.getUsername())){
-            return Result.error("账号不能为空",new UmsMember());
+        if (StrUtil.isBlank(dto.getUsername())) {
+            return Result.error("账号不能为空", new UmsMember());
         }
-        if (StrUtil.isBlank(dto.getPassword())){
-            return Result.error("密码不能为空",new UmsMember());
+        if (StrUtil.isBlank(dto.getPassword())) {
+            return Result.error("密码不能为空", new UmsMember());
         }
-        if (dto.getCode()==null){
-            return Result.error("验证码不能为空",new UmsMember());
+        if (dto.getCode() == null) {
+            return Result.error("验证码不能为空", new UmsMember());
         }
         UmsMember member = umsMember.getOne(new LambdaQueryWrapper<UmsMember>().eq(UmsMember::getUsername, dto.getUsername()));
-        if (member==null){
-            return Result.error("账号或密码错误",new UmsMember());
+        if (member == null) {
+            return Result.error("账号或密码错误", new UmsMember());
         }
         String md5Str = SecureUtil.md5(dto.getPassword());
-        if (member.getPassword().equals(md5Str)){
+        if (member.getPassword().equals(md5Str)) {
             String token = RandomUtil.randomString(20);
-            if (!redisTemplate.hasKey(RedisKey.USER_TOKEN+member.getId())) {
+            if (!redisTemplate.hasKey(RedisKey.USER_TOKEN + member.getId())) {
                 String s = JSON.toJSONString(member);
-                redisTemplate.opsForValue().set(RedisKey.USER_TOKEN+token,s);
+                redisTemplate.opsForValue().set(RedisKey.USER_TOKEN + token, s);
             }
             member.setEmail(token);
             return Result.ok(member);
         }
-        return Result.error("账号或密码错误",new UmsMember());
+        return Result.error("账号或密码错误", new UmsMember());
     }
 
     @GetMapping("/getAllMember")
-    public Result<List<UmsMember>> getAllMember(){
+    public Result<List<UmsMember>> getAllMember() {
        /* UmsMember user = GlobalParamUtil.getUser();
         log.info("user---->{}",user);*/
         return Result.ok(umsMember.list());
@@ -82,9 +83,9 @@ public class UmsMemberController {
         MD5 md5 = MD5.create();
         byte[] digest = md5.digest(member.getPassword());
         member.setPassword(new String(digest));
-       // umsMember.save(member);
+        // umsMember.save(member);
         //发送消息
-        org.apache.rocketmq.common.message.Message message1=new org.apache.rocketmq.common.message.Message();
+        org.apache.rocketmq.common.message.Message message1 = new org.apache.rocketmq.common.message.Message();
         message1.setTopic(RocketMQTopicConstant.TOPIC_ADD_USER);
         message1.setTags(RocketMQTagConstant.TAG_ADD_USER);
         message1.setBody("新增用户".getBytes());

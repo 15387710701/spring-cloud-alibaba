@@ -38,42 +38,43 @@ public class BookController {
     private AccUserMapper accUserMapper;
     @Autowired
     StringRedisTemplate redisTemplate;
+
     @GetMapping("/list")
-    public List<MpBook> findAll(){
+    public List<MpBook> findAll() {
         List<MpBook> list = bookService.list();
         for (MpBook mpBook : list) {
             String s = JSON.toJSONString(mpBook);
             String id = String.valueOf(mpBook.getId());
             double longitude = Double.parseDouble(mpBook.getLongitude());
             double latitude = Double.parseDouble(mpBook.getLatitude());
-            redisTemplate.opsForGeo().add("book",new Point(longitude,latitude),mpBook.getBookName());
+            redisTemplate.opsForGeo().add("book", new Point(longitude, latitude), mpBook.getBookName());
         }
         return list;
     }
 
     @PostMapping("/updateOrSave")
-    public Result findAll(@RequestBody MpBook mpBook){
+    public Result findAll(@RequestBody MpBook mpBook) {
         return Result.ok(bookService.saveOrUpdate(mpBook));
     }
 
     @GetMapping("/getMpBook")
-    public String findAll(Long id){
-            return bookService.getById(id).getAuthor();
+    public String findAll(Long id) {
+        return bookService.getById(id).getAuthor();
     }
+
     @GetMapping("/delete")
-    public Result delete(Long id){
+    public Result delete(Long id) {
         return Result.ok(bookService.removeById(id));
     }
 
     /**
-     *
      * @param longitude 经度
-     * @param latitude 维度
-     * @param distance 半径距离
+     * @param latitude  维度
+     * @param distance  半径距离
      * @return
      */
     @GetMapping("/getNear")
-    public  GeoResults<RedisGeoCommands.GeoLocation<String>> getNear(double  longitude ,double latitude,Integer distance){
+    public GeoResults<RedisGeoCommands.GeoLocation<String>> getNear(double longitude, double latitude, Integer distance) {
         //distance 查附近多远的距离
         // includeDistance 包含距离
         // includeCoordinates 包含经纬度
@@ -86,7 +87,7 @@ public class BookController {
         RedisGeoCommands.GeoRadiusCommandArgs args = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
                 .includeDistance().includeCoordinates().sortAscending();
         /*GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = geoNearByPlace();*/
-        return redisTemplate.opsForGeo().radius("book",new Circle(new Point(longitude,latitude),distance1),args);
+        return redisTemplate.opsForGeo().radius("book", new Circle(new Point(longitude, latitude), distance1), args);
     }
 
 
@@ -100,8 +101,9 @@ public class BookController {
                 .includeDistance().includeCoordinates().sortAscending().limit(count);
         return redisTemplate.opsForGeo().radius("key", member, distance, args);
     }
+
     @GetMapping("/distance2")
-    public GeoResults<RedisGeoCommands.GeoLocation<String>> geoNearByPlace(String key, Double lo,Double la, Integer distance) {
+    public GeoResults<RedisGeoCommands.GeoLocation<String>> geoNearByPlace(String key, Double lo, Double la, Integer distance) {
         Distance distances = new Distance(distance, Metrics.KILOMETERS);
         // includeDistance 包含距离
         // includeCoordinates 包含经纬度
@@ -110,8 +112,8 @@ public class BookController {
         // arg  返回值包含经纬度
         RedisGeoCommands.GeoRadiusCommandArgs args = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
                 .includeDistance().includeCoordinates().sortAscending();
-         GeoResults<RedisGeoCommands.GeoLocation<String>> results = redisTemplate.opsForGeo()
-                .radius("china:city", new Circle(new Point(lo,la), distances),args);//params: key, 地方名称, Circle, GeoRadiusCommandArgs
+        GeoResults<RedisGeoCommands.GeoLocation<String>> results = redisTemplate.opsForGeo()
+                .radius("china:city", new Circle(new Point(lo, la), distances), args);//params: key, 地方名称, Circle, GeoRadiusCommandArgs
         return results;
 
     }
@@ -131,38 +133,38 @@ public class BookController {
     }
 
     /**
-     *
-     * @Title: expUser
-     * @Description: 导出excel
      * @param response
      * @return void
+     * @Title: expUser
+     * @Description: 导出excel
      */
     @GetMapping("/expUser")
-    public void expUser(HttpServletResponse response){
+    public void expUser(HttpServletResponse response) {
         List<AccUser> users = accUserMapper.selectList(new LambdaQueryWrapper<AccUser>().last("LIMIT 99000,500 "));
-        if(users != null && users.size() > 0){
+        if (users != null && users.size() > 0) {
             ExcelUtils.exportExcel(users, "哈哈哈", "用户数据", MpBook.class, "用户20181118.xlsx", response);
         }
     }
+
     @GetMapping("/expUser1")
-    public void expUser1(HttpServletResponse response){
+    public void expUser1(HttpServletResponse response) {
         List<MpBook> users = bookService.list(null);
-        if(users != null && users.size() > 0){
+        if (users != null && users.size() > 0) {
             ExcelUtils.exportExcel(users, "哈哈哈", "用户数据", MpBook.class, "hhh.xlsx", response);
         }
     }
 
     @GetMapping("/save")
-    public void save(HttpServletResponse response){
+    public void save(HttpServletResponse response) {
         for (int i = 0; i < 10000; i++) {
             MpBook mpBook = new MpBook();
-            mpBook.setAuthor(UUID.randomUUID()+"");
-            mpBook.setId(1020+i);
-            mpBook.setBookName("小红书"+UUID.randomUUID());
+            mpBook.setAuthor(UUID.randomUUID() + "");
+            mpBook.setId(1020 + i);
+            mpBook.setBookName("小红书" + UUID.randomUUID());
             mpBook.setLatitude(new Random().toString());
-            mpBook.setLongitude(UUID.randomUUID()+"");
+            mpBook.setLongitude(UUID.randomUUID() + "");
             mpBook.setPages(10);
-            mpBook.setPublish(UUID.randomUUID()+"");
+            mpBook.setPublish(UUID.randomUUID() + "");
             bookService.save(mpBook);
         }
 
@@ -198,12 +200,12 @@ public class BookController {
     }*/
 
     @GetMapping("/list111")
-    public void list111(HttpServletResponse response,String name,List list,Class entityClass) throws IOException {
+    public void list111(HttpServletResponse response, String name, List list, Class entityClass) throws IOException {
         OutputStream outputStream = response.getOutputStream();
         String time = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date());
         //设置字符编码
         //添加响应头信息
-        response.setHeader("Content-disposition", "attachment; filename=" + new String(name.getBytes(StandardCharsets.UTF_8),"ISO8859-1")+".xlsx");
+        response.setHeader("Content-disposition", "attachment; filename=" + new String(name.getBytes(StandardCharsets.UTF_8), "ISO8859-1") + ".xlsx");
         //设置类型
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
 
@@ -214,22 +216,22 @@ public class BookController {
         //设置日期头
         response.setDateHeader("Expires", 0);
 
-            //每页多少个
-            //必须放到循环外，否则会刷新流
-            ExcelWriter excelWriter= EasyExcel.write(outputStream).build();
+        //每页多少个
+        //必须放到循环外，否则会刷新流
+        ExcelWriter excelWriter = EasyExcel.write(outputStream).build();
         WriteSheet writeSheet = EasyExcel.writerSheet(0, name).head(entityClass)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).build();
         /*List<MpBook> list = bookService.list();*/
-        if (list!=null){
+        if (list != null) {
           /*  int i =0;
             while(true){
                 *//*List<MpBook> list = bookService.list(new QueryWrapper<MpBook>().last("limit " + (i++)*1000 + ",1000"));*//*
                 if (list.isEmpty()) {
                     break;
                 }*/
-                excelWriter.write(list,writeSheet);
-                System.out.println("raw-------------------------------------------------------------------------");
-           // }
+            excelWriter.write(list, writeSheet);
+            System.out.println("raw-------------------------------------------------------------------------");
+            // }
 
             //刷新流
             excelWriter.finish();
@@ -238,7 +240,7 @@ public class BookController {
     }
 
     @GetMapping("/save1")
-    public void save1(HttpServletResponse response){
+    public void save1(HttpServletResponse response) {
         MpBook mpBook = new MpBook();
         mpBook.setAuthor("aaa");
         boolean insert = bookService.save(mpBook);
@@ -248,6 +250,6 @@ public class BookController {
     @GetMapping("/ex")
     public void ex(HttpServletResponse response) throws IOException {
         List<MpBook> insert = bookService.list();
-        list111(response,"数据",insert,MpBook.class);
+        list111(response, "数据", insert, MpBook.class);
     }
 }

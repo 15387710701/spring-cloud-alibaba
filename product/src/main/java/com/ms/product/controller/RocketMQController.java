@@ -9,6 +9,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 @Slf4j
 @RestController
 public class RocketMQController {
@@ -19,10 +20,11 @@ public class RocketMQController {
 
     /**
      * 普通消息
+     *
      * @return
      */
     @GetMapping("/rocket")
-    public Result result(){
+    public Result result() {
         PmsBrand pmsBrand = new PmsBrand();
         pmsBrand.setDescript("测试消息");
         pmsBrand.setFirstLetter("啊啊");
@@ -30,7 +32,7 @@ public class RocketMQController {
         brandService.save(pmsBrand);
 
         SendResult sendResult = rocketMQTemplate.syncSend("TopicA:TagBrand", pmsBrand);
-        log.info("发送的状态是--->{}",sendResult.getSendStatus());
+        log.info("发送的状态是--->{}", sendResult.getSendStatus());
         return Result.ok();
 
     }

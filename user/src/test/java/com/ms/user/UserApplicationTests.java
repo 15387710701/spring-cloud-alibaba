@@ -19,29 +19,33 @@ class UserApplicationTests {
     IUmsMember umsMember;
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
+
     @Test
     void contextLoad1() {
         UmsMember member = new UmsMember();
         member.setEmail("lhw15387710701@163.com");
-        rocketMQTemplate.convertAndSend("springboot-test-123",member);
+        rocketMQTemplate.convertAndSend("springboot-test-123", member);
     }
+
     @Test
     void contextLoad() {
         UmsMember member = new UmsMember();
         member.setEmail("lhw15387710701@163.com");
-       rocketMQTemplate.convertAndSend("springboot-test-123",member);
+        rocketMQTemplate.convertAndSend("springboot-test-123", member);
     }
+
     @Test
     void contextLoads() {
         //同步消息  producer向 broker 发送消息，执行 API 时同步等待， 直到broker 服务器返回发送结果 。
         UmsMember member = new UmsMember();
-        SendResult sendResult = rocketMQTemplate.syncSend("springboot-test","同步消息");
+        SendResult sendResult = rocketMQTemplate.syncSend("springboot-test", "同步消息");
         System.out.println("消息状态：" + sendResult.getSendStatus());
         System.out.println("消息id：" + sendResult.getMsgId());
         System.out.println("消息queue：" + sendResult.getMessageQueue());
         System.out.println("消息offset：" + sendResult.getQueueOffset());
         System.out.println(sendResult);
     }
+
     @Test
     void contextLoads2() {
         //发送异步消息
@@ -56,13 +60,13 @@ class UserApplicationTests {
                 System.out.println("消息offset：" + sendResult.getQueueOffset());
                 System.out.println(sendResult);
             }
+
             @Override
             public void onException(Throwable e) {
                 System.out.println("异常");
                 System.out.println(e.getMessage());
             }
         });
-
 
 
     }
@@ -72,7 +76,7 @@ class UserApplicationTests {
         //设置重试机制  3次
         DefaultMQProducer producer = rocketMQTemplate.getProducer();
         producer.setRetryTimesWhenSendFailed(3);
-        Message message = new Message("topic1","tag1","哈哈哈".getBytes());
+        Message message = new Message("topic1", "tag1", "哈哈哈".getBytes());
         //超时时间
         SendResult sendResult = producer.send(message, 1000);
         System.out.println("消息状态：" + sendResult.getSendStatus());
@@ -87,7 +91,7 @@ class UserApplicationTests {
         //设置重试机制  3次
         DefaultMQProducer producer = rocketMQTemplate.getProducer();
         producer.setRetryTimesWhenSendFailed(3);
-        Message message = new Message("topic1","tag1","哈哈哈".getBytes());
+        Message message = new Message("topic1", "tag1", "哈哈哈".getBytes());
         //超时时间
         SendResult sendResult = producer.send(message, 1000);
         System.out.println("消息状态：" + sendResult.getSendStatus());
@@ -99,6 +103,7 @@ class UserApplicationTests {
 
     /**
      * 事务消息
+     *
      * @throws Exception
      */
     @Test

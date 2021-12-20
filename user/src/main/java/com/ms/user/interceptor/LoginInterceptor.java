@@ -17,10 +17,11 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class LoginInterceptor  extends HandlerInterceptorAdapter {
+public class LoginInterceptor extends HandlerInterceptorAdapter {
     private static ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
     @Autowired
     StringRedisTemplate redisTemplate;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
       /*  String token = request.getParameter("token");
@@ -29,7 +30,7 @@ public class LoginInterceptor  extends HandlerInterceptorAdapter {
         }*/
         log.info("进入了preHandle");
 
-        if(log.isInfoEnabled()){
+        if (log.isInfoEnabled()) {
             String uri = request.getRequestURI();
             log.info(uri);
             String ipAddr = getIpAddr(request);
@@ -50,10 +51,11 @@ public class LoginInterceptor  extends HandlerInterceptorAdapter {
 
     /**
      * 获取真实IP
+     *
      * @param request
      * @return
      */
-    public  String getIpAddr(HttpServletRequest request) {
+    public String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

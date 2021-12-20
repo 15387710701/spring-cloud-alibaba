@@ -16,94 +16,95 @@ public class UmsMember implements Serializable {
 
     @TableId(type = IdType.AUTO)
     /**
-    * id
-    */
+     * id
+     */
     private Long id;
 
     /**
-    * ��ա�ȼ�id
-    */
+     * ��ա�ȼ�id
+     */
     private Long levelId;
 
     /**
-    * �û���
-    */
+     * �û���
+     */
     private String username;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private String password;
 
     /**
-    * �ǳ�
-    */
+     * �ǳ�
+     */
     private String nickname;
 
     /**
-    * �ֻ�����
-    */
+     * �ֻ�����
+     */
     private String mobile;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private String email;
 
     /**
-    * ͷ��
-    */
+     * ͷ��
+     */
     private String header;
 
     /**
-    * �ա�
-    */
+     * �ա�
+     */
     private int gender;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private Date birth;
 
     /**
-    * ���ڳ���
-    */
+     * ���ڳ���
+     */
     private String city;
 
     /**
-    * ְҵ
-    */
+     * ְҵ
+     */
     private String job;
 
     /**
-    * ����ǩ��
-    */
+     * ����ǩ��
+     */
     private String sign;
 
     /**
-    * �û���դ
-    */
+     * �û���դ
+     */
     private int sourceType;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private Integer integration;
 
     /**
-    * �ɳ�ֵ
-    */
+     * �ɳ�ֵ
+     */
     private Integer growth;
 
     /**
-    * ����״̬
-    */
+     * ����״̬
+     */
     private int status;
 
     /**
-    * ע��ʱ��
-    */
+     * ע��ʱ��
+     */
     private Date createTime;
 
-    public UmsMember() {}
+    public UmsMember() {
+    }
 }

@@ -24,6 +24,7 @@ public class Result<T> {
         result.setCode(SUCCESS_CODE);
         return result;
     }
+
     public static <T> Result<T> ok(String msg) {
         Result<T> result = new Result<>();
         result.setCode(SUCCESS_CODE);
@@ -39,6 +40,7 @@ public class Result<T> {
         result.setMsg(msg);
         return result;
     }
+
     public static <T> Result<T> error(String msg) {
         Result<T> result = new Result<>();
         result.setCode(FAIL_CODE);
@@ -46,6 +48,7 @@ public class Result<T> {
         result.setMsg(msg);
         return result;
     }
+
     public static <T> Result<T> ok(T data) {
         Result<T> result = new Result<>();
         result.setCode(SUCCESS_CODE);

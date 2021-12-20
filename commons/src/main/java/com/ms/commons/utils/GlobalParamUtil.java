@@ -154,7 +154,9 @@ public class GlobalParamUtil {
     }
 
 
-    *//**
+    */
+
+    /**
      * 是否需要抛异常
      *
      * @return
@@ -170,7 +172,7 @@ public class GlobalParamUtil {
         if (o == null) {
             throw new MsException(401, "未登录");
         }*/
-        return ((UmsMember)map.get(key_user));
+        return ((UmsMember) map.get(key_user));
     }
 
     public static int getPage() {

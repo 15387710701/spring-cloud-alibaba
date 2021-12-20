@@ -11,14 +11,14 @@ public class HomeOpenHandlerConfigration extends WebMvcConfigurerAdapter {
 
     //关键，将拦截器作为bean写入配置中
     @Bean
-    public LoginInterceptor myInterceptor(){
+    public LoginInterceptor myInterceptor() {
         return new LoginInterceptor();
     }
-    
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(myInterceptor()).addPathPatterns("/**")
-        .excludePathPatterns("/member/userLogin");
+                .excludePathPatterns("/member/userLogin");
         super.addInterceptors(registry);
     }
 }

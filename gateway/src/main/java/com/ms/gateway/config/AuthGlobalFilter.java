@@ -16,18 +16,20 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+
 @Slf4j
 @Component
 public class AuthGlobalFilter implements GlobalFilter {
     @Autowired
     StringRedisTemplate redisTemplate;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getQueryParams().getFirst("token");
         String path = exchange.getRequest().getURI().getPath();
-        log.info("请求路径是:{}",path);
+        log.info("请求路径是:{}", path);
         String ipAddress = getIpAddress(exchange.getRequest());
-        log.info("来访者ip地址是:{}",ipAddress);
+        log.info("来访者ip地址是:{}", ipAddress);
         if (StringUtils.isBlank(token) && !(path.equals("/member/userLogin"))) {
 
             System.out.println("鉴权失败");
@@ -39,6 +41,7 @@ public class AuthGlobalFilter implements GlobalFilter {
         }
         return chain.filter(exchange);
     }
+
     // 设置响应码
     private Mono<Void> errorRespone(String str, Integer type, ServerHttpResponse response) {
         byte[] bits = str.getBytes(StandardCharsets.UTF_8);
@@ -51,6 +54,7 @@ public class AuthGlobalFilter implements GlobalFilter {
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         return response.writeWith(Mono.just(buffer));
     }
+
     //获取 ip
     public static String getIpAddress(ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();

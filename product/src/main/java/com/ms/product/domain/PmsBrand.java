@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+
 @TableName("pms_brand")
 @Data
 public class PmsBrand implements Serializable {
@@ -14,39 +15,40 @@ public class PmsBrand implements Serializable {
 
     @TableId(type = IdType.AUTO)
     /**
-    * ʒ��id
-    */
+     * ʒ��id
+     */
     private Long brandId;
 
     /**
-    * ʒ����
-    */
+     * ʒ����
+     */
     private String name;
 
     /**
-    * ʒ��logo��ַ
-    */
+     * ʒ��logo��ַ
+     */
     private String logo;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private String descript;
 
     /**
-    * ��ʾ״̬[0-����ʾ��1-��ʾ]
-    */
+     * ��ʾ״̬[0-����ʾ��1-��ʾ]
+     */
     private int showStatus;
 
     /**
-    * ��������ĸ
-    */
+     * ��������ĸ
+     */
     private String firstLetter;
 
     /**
-    * ����
-    */
+     * ����
+     */
     private Integer sort;
 
-    public PmsBrand() {}
+    public PmsBrand() {
+    }
 }

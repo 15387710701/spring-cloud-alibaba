@@ -10,9 +10,9 @@ public class SellExceptionHandler {
 
     @ExceptionHandler(value = SellException.class)
     @ResponseBody
-    public Result handlerSellerException(SellException e){
-        System.out.println("错误信息是:"+e.getMessage());
-        return Result.error(e.getMessage(),e.getCode());
+    public Result handlerSellerException(SellException e) {
+        System.out.println("错误信息是:" + e.getMessage());
+        return Result.error(e.getMessage(), e.getCode());
     }
 
 }
